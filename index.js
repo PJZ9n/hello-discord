@@ -16,13 +16,17 @@ CLIENT.on("message", message => {
 
 CLIENT.on("message", async message => {
     if (!message.guild) return;
-    if (message.content === "vc") {
+    //TODO コマンドの例外処理
+    let command = message.content.split(" ");
+    if (command[0] === "vc") {
         if (message.member.voice.channel) {
+            let url = command[1];
             const CONNECTION = await message.member.voice.channel.join();
-            let y = YTDL("https://www.youtube.com/watch?v=9lVPAWLWtWc", {
+            let y = YTDL(url, {
                 filter: "audioonly"
             });
             CONNECTION.play(y);
+            message.reply("Now playing!");
         } else {
             message.reply("VCに入ってください");
         }
